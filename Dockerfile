@@ -28,9 +28,15 @@ RUN useradd \
 RUN mkdir -p /workspace \
     && chown claude:claude /workspace
 
+
 # Claude configuration directory
-RUN mkdir -p /home/claude/.claude \
-    && chown -R claude:claude /home/claude
+RUN mkdir -p /home/claude/.claude 
+
+# Copy entrypoint
+COPY entrypoint.sh /home/claude/
+RUN chmod +x /home/claude/entrypoint.sh
+
+RUN chown -R claude:claude /home/claude
 
 USER claude
 
@@ -39,9 +45,10 @@ ENV HOME=/home/claude
 # Install Claude Code
 RUN curl -fsSL https://claude.ai/install.sh | bash
 
-RUN echo 'export PATH="$HOME/.local/bin:$PATH"' >> /home/claude/.bashrc
-RUN echo 'export CLAUDE_CONFIG_DIR="/home/claude/.config/claude-code"' >> /home/claude/.bashrc
+ENV HOME=/home/claude \
+    PATH=/home/claude/.local/bin:$PATH \
+    CLAUDE_CONFIG_DIR=/home/claude/.config/claude-code
 
 WORKDIR /workspace
 
-#ENTRYPOINT ["claude"]
+ENTRYPOINT ["/home/claude/entrypoint.sh"]

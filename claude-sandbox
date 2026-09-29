@@ -42,4 +42,4 @@ docker run --rm -it \
 	--name "$CONTAINER_NAME" \
 	-v "$CONFIG_DIR/$CLAUDE_ENV":/home/claude/.config \
 	-v .:/workspace \
-	claude-sandbox:latest /bin/bash
+	claude-sandbox:latest 
