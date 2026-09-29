@@ -83,3 +83,5 @@ The default container name is `claude`. You can use the `-n` flag to change it:
 ```bash
 claude-sandbox -n test_project
 ```
+### Customize the Image
+Edit the Docker file to add other tool that you might need in the container and then run the `install.sh` script to build the image
