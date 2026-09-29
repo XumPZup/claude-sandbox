@@ -1,0 +1,45 @@
+#!/bin/bash
+
+CONFIG_DIR="$HOME/.config/claude-sandbox"
+CLAUDE_ENV=".claude"
+CONTAINER_NAME="claude"
+
+while getopts ":e:n:" opt; do
+	case $opt in
+		e)
+			CLAUDE_ENV="$OPTARG"
+			ENV_LOWER=$(echo ${CLAUDE_ENV,,}) 
+			exists=$(find $CONFIG_DIR -name $CLAUDE_ENV)
+			# Don't allow hidden folders
+			if [[ "${ENV_LOWER:0:1}" == '.' ]]; then
+				echo "Hidden folders are not allowed"
+				exit 1
+			
+			# Don't allow "claude" as env name
+			elif [[ "$ENV_LOWER" == "claude" ]]; then
+				echo "The environment name \"$CLAUDE_ENV\" is not allowed"
+				exit 1
+			
+			# Create env directory if not exists
+			elif [[ ! -e "$CONFIG_DIR/$CLAUDE_ENV" ]]; then
+				mkdir "$CONFIG_DIR/$CLAUDE_ENV"
+			fi
+			;;
+		n)
+			CONTAINER_NAME="$OPTARG"
+			;;
+		*)
+			echo "Usage: $0 [-e env_name] [-n container_name]"
+			echo "Note that all the arguments are optionals"
+			exit 1
+	esac
+done	
+
+
+docker run --rm -it \
+	--cap-drop=ALL \
+	--security-opt=no-new-privileges \
+	--name "$CONTAINER_NAME" \
+	-v "$CONFIG_DIR/$CLAUDE_ENV":/home/claude/.config \
+	-v .:/workspace \
+	claude-sandbox:latest /bin/bash

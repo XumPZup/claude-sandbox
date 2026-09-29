@@ -1,2 +1,2 @@
 # claude-sandbox
-Claude Sandbox
+Keep claude on a leash by keeping it in a container
