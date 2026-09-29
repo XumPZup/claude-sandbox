@@ -9,7 +9,6 @@ sudo chmod +x /usr/local/bin/claude-sandbox
 # When rebuilding the image use the name `claude-sandbox` which is the name the main srcipt uses to run the container
 sudo mkdir -p /usr/local/lib/claude-sandbox/
 sudo cp Dockerfile /usr/local/lib/claude-sandbox/
-sudo cp entrypoint.sh /usr/local/lib/claude-sandbox/
 
 # Create claude-sandbox configiratons folder with default environment
 mkdir -p ~/.config/claude-sandbox/.claude

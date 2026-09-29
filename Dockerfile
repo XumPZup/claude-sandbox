@@ -32,10 +32,6 @@ RUN mkdir -p /workspace \
 # Claude configuration directory
 RUN mkdir -p /home/claude/.claude 
 
-# Copy entrypoint
-COPY entrypoint.sh /home/claude/
-RUN chmod +x /home/claude/entrypoint.sh
-
 RUN chown -R claude:claude /home/claude
 
 USER claude
@@ -51,4 +47,4 @@ ENV HOME=/home/claude \
 
 WORKDIR /workspace
 
-ENTRYPOINT ["/home/claude/entrypoint.sh"]
+ENTRYPOINT ["claude"]
