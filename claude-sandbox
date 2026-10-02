@@ -4,7 +4,7 @@ CONFIG_DIR="$HOME/.config/claude-sandbox"
 CLAUDE_ENV=".claude"
 CONTAINER_NAME="claude"
 
-while getopts ":e:n:" opt; do
+while getopts ":e:n:l" opt; do
 	case $opt in
 		e)
 			CLAUDE_ENV="$OPTARG"
@@ -28,8 +28,16 @@ while getopts ":e:n:" opt; do
 		n)
 			CONTAINER_NAME="$OPTARG"
 			;;
+		l)
+			echo "User Environments:"
+			echo "---"
+			ls $CONFIG_DIR
+			echo "---"
+			exit 0
+			;;
 		*)
-			echo "Usage: $0 [-e env_name] [-n container_name]"
+			echo "Usage: claude-sandbox [-e env_name] [-n container_name]"
+			echo "List env: claude-sandbox -l"
 			echo "Note that all the arguments are optionals"
 			exit 1
 	esac
